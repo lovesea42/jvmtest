@@ -4,6 +4,8 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class MemoryMonitor {
@@ -44,8 +46,11 @@ public class MemoryMonitor {
             long count = mpBean.getUsage().getUsed();
             String name = mpBean.getName();
 
+            BigDecimal bd = new BigDecimal((count/1024.0/1024.0));
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
+
             System.out.println("name:" + name
-                    +",count:" + count
+                    +",count:" + bd.toString() + "M"
 
             );
         }

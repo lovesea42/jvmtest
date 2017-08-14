@@ -1,24 +1,26 @@
 package com.brianxia.gc;
 
+import com.brianxia.monitor.memory.MemoryMonitor;
+
 /**
  * 引用计数GC
  * VM Args:-verbose:gc -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8
+ *
+ * -XX:+UseSerialGC
  */
 public class ReferenceCountingGC {
-    public Object instance = null;
-    private static final int _1MB = 1024*1024;
 
-    private byte[] bigSize = new byte[2 * _1MB];
+    private static final int _1MB = 1024 * 1024;
 
     public static void main(String[] args) {
-        ReferenceCountingGC objA = new ReferenceCountingGC();
-        ReferenceCountingGC objB = new ReferenceCountingGC();
-        objA.instance = objB;
-        objB.instance = objA;
+        byte[] test1 = new byte[2 * _1MB];
+        byte[] test2 = new byte[2 * _1MB];
+        byte[] test3 = new byte[2 * _1MB];
+        byte[] test4 = new byte[4 * _1MB];
 
-        objA = null;
-        objB = null;
-
-        System.gc();
+        //System.out.println("start to system gc...");
+        //System.gc();
+        //System.out.println("end to system gc...");
+        MemoryMonitor.visitMemory();
     }
 }
